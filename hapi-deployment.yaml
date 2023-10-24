@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hapi-deployment
+  namespace: hapi-ns
+  labels:
+    app: hapi
+spec:
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 50%
+  replicas: 4
+  selector:
+    matchLabels:
+      app: hapi
+  template:
+    metadata:
+      labels:
+        app: hapi
+    spec:
+      containers:
+      - name: echo
+        image: registry.cluster.wik.cloud/public/echo
+        ports:
+        - containerPort: 8080
